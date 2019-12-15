@@ -1,21 +1,22 @@
 import json
 import random
 import string
+from django.conf import settings
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404
-from hashlib import md5
 
 from .models import Urls
 
 
 def index(request):
-    data = dict()
 
-    return render(request, 'shortenersite/index.html', context=data)
+    return render(request, 'shortner_app/index.html', context=dict())
 
 
-def redirect_original(request, md_url):
-    url = get_object_or_404(Urls, pk=md_url)
+def redirect_original(request, short_id):
+    url = get_object_or_404(Urls, pk=short_id)
+    url.count += 1
+    url.save()
 
     return HttpResponseRedirect(url.http_url)
 
@@ -26,23 +27,24 @@ def shorten_url(request):
     if url is None:
         return HttpResponse(json.dumps({'error': 'error occurs'}))
 
-    # проверяем есть ли такой урл уже в БД
-    md5_url = get_md5_hash(url)
     # генерируем короткий  URL
     short_url = get_short_url()
 
+    db = Urls(short_id=short_url, http_url=url)
+    db.save()
 
-def get_md5_hash(url: str) -> str:
-    hash_obj = md5(url.encode('utf-8'))
+    response_data = dict(url=f'{settings.SITE_URL}/{short_url}')
 
-    return hash_obj.hexdigest()
+    return HttpResponse(json.dumps(response_data), content_type="application/json")
 
 
 def get_short_url():
     length = 6  # длинна url
     char = f'{string.ascii_uppercase}{string.ascii_lowercase}{string.digits}'  # строка ASCI символов
 
-    short_url = ''.join(random.choice(char) for _ in range(length))
-    # TODO: реализовать проверку на уникальность короткого URL
+    while True:
+        short_url = ''.join(random.choice(char) for _ in range(length))
+
+        if not Urls.check(pk=short_url): break
 
     return short_url
