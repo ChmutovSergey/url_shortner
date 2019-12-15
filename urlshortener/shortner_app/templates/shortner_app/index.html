@@ -7,14 +7,14 @@
 <div class="panel panel-default">
     <div class="panel-body">
         <div class="col-sm-9">
-            <input type="text" name="url" id="url" class="form-control input-sm" placeholder="http://www.facebook.com"/>
+            <input type="text" name="url" id="url" class="form-control input-sm" placeholder="https://www.alibra.ru"/>
         </div>
         <div class="col-sm-3">
             {% csrf_token %}
-            <button id="submitButton" class="btn btn-primary">Submit</button>
+            <button id="submitButton" class="btn btn-primary">Сократить</button>
             </p>
         </div>
     </div>
-    <div class="panel-footer"><span id="url-result">Enter the URL above and click submit!</span></div>
+    <div class="panel-footer"><span id="url-result">Вставьте ссылку и нажмите "Сократить"!</span></div>
 </div>
 {% endblock %}

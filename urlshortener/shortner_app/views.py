@@ -43,8 +43,8 @@ def get_short_url():
     char = f'{string.ascii_uppercase}{string.ascii_lowercase}{string.digits}'  # строка ASCI символов
 
     while True:
+        # FIXME: есть вероятность ухода в бесконечный цикл
         short_url = ''.join(random.choice(char) for _ in range(length))
 
-        if not Urls.check(pk=short_url): break
-
-    return short_url
+        if not Urls.check(pk=short_url):
+            return short_url
