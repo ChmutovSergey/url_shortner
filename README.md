@@ -1,4 +1,4 @@
-# Django URL Shortener
+# URL Shortner
 
 Сервис для сокращения ссылок на Django
 (Django 3.0 and Python 3.6)
