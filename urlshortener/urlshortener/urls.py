@@ -1,8 +1,8 @@
-from django.conf.urls import include
+from django.conf.urls import include, url
 from django.contrib import admin
-from django.urls import path
+
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path(r'', include('shortner_app.urls', namespace='shortner_app'))
+    url('admin/', admin.site.urls),
+    url(r'', include('shortner_app.urls', namespace='shortner_app'))
 ]

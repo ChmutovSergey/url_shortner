@@ -1,11 +1,11 @@
-from django.conf.urls import include, url
-from django.urls import path
+from django.conf.urls import url
+from . import views
 
 
-path(r'', include('shortner_app.urls', namespace='shortner_app'))
+app_name = 'shortner_app'
 
 urlpatterns = [
-    path(r'^$', 'index', name='home'),
-    path(r'^(?P&lt;short_id&gt;\w{6})$', 'redirect_original', name='redirectoriginal'),
-    path(r'^makeshort/$', 'short_url', name='shortenurl'),
+    url(r'^$', views.index, name='home'),
+    url(r'^(?P<short_id>\w{6})$', views.redirect_original, name='redirectoriginal'),
+    url(r'^makeshort/$', views.shorten_url, name='shortenurl'),
 ]
